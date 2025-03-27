@@ -23,9 +23,9 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker build -t saddamirfana/nodejsgoof:0.1 .'
+                sh 'docker build -t saddamirfana/nodejsgoof2:0.1 .'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push saddamirfana/nodejsgoof:0.1'
+                sh 'docker push saddamirfana/nodejsgoof2:0.1'
             }
         }
         
@@ -41,11 +41,11 @@ pipeline {
                     sh '''
                         ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 \
                             "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                        ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker pull saddamirfana/nodejsgoof:0.1
+                        ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker pull saddamirfana/nodejsgoof2:0.1
                         ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker rm --force mongodb
                         ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker run --detach --name mongodb -p 27017:27017 mongo:3
                         ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker rm --force nodejsgoof
-                        ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker run -it --detach --name nodejsgoof --network host saddamirfana/nodejsgoof:0.1
+                        ssh -i ${keyfile} -o StrictHostKeyChecking=no saddam@127.0.0.1 docker run -it --detach --name nodejsgoof2 --network host saddamirfana/nodejsgoof2:0.1
                     '''
                 }
             }
